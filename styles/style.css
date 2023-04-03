@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: grey;
+    font-family: 'Michroma', sans-serif;
+}
+
+header {
+    font-size: 4vmin;
+    letter-spacing: 1vmin;
+    text-transform: uppercase;
+    margin-top: 10vmin;
+}
+
+p {
+    font-size: 2vmin;
+}
+
+#stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#stats > p, #stats > div {
+    padding: 3vmin 8vmin;
+    margin: 1vmin 0;
+}
+
+#cards{
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(5, 14vmin);
+    grid-template-rows: repeat(4, 14vmin);
+    gap: 1.2vmin;
+}
+
+button {
+    font-size: 2.5vmin;
+    letter-spacing: 0.8vmin;
+    border: 0.1vmin solid grey;
+    padding: 3.5vmin;
+    border-radius: 8vmin;
+    font-family: 'Michroma', sans-serif;
+    cursor: pointer;
+}
+
+#start {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    color: white;
+    background-color: grey;
+}
+
+#play-again {
+    font-size: 2vmin;
+    padding: 2.5vmin;
+    color: grey;
+    background-color: white;
+}
+
+#start:hover {
+    background-color: white;
+    color: grey;
+}
+
+#play-again:hover {
+    background-color: grey;
+    color: white;
+}
+
+
+
