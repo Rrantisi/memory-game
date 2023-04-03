@@ -16,6 +16,17 @@ const startGameBtn = document.getElementById('start')
 /*----- event listeners -----*/
 
 /*----- functions -----*/
+function renderCards(){
+    for (let i = 0; i < 20; i++){
+        document.getElementById('cards').innerHTML += `
+            <div class="card">
+                <div class="front"></div>
+                <div class="back"></div>
+            </div>
+        `
+    }
+}
+
 initialize()
 function initialize(){
     seconds = 0;
@@ -30,4 +41,5 @@ function initialize(){
 }
 
 function render(){
+    renderCards();
 }
