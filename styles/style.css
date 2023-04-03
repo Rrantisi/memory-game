@@ -29,6 +29,7 @@ p {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    margin-bottom: -5vmin;
 }
 
 #stats > p, #stats > div {
@@ -42,6 +43,35 @@ p {
     grid-template-columns: repeat(5, 14vmin);
     grid-template-rows: repeat(4, 14vmin);
     gap: 1.2vmin;
+}
+
+.card {
+    transform-style: preserve-3d;
+    transition: all 0.5s ease;
+    height: 14vmin;
+    z-index: 0;
+    margin-top: 5vmin;
+    position: relative;
+}
+
+.front, .back {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.front {
+    height: 14vmin;
+}
+
+.back {
+    background: radial-gradient(
+        white ,
+        lightgrey 
+    );
+    background-size: 5% 5%;
+    border: 0.3vmin solid lightgray;
+    height: 14vmin;
 }
 
 button {
@@ -61,6 +91,8 @@ button {
     left: 50%;
     color: white;
     background-color: grey;
+    z-index: 1;
+    margin-top: 5vmin;
 }
 
 #play-again {
@@ -68,6 +100,7 @@ button {
     padding: 2.5vmin;
     color: grey;
     background-color: white;
+    margin: 8vmin 0;
 }
 
 #start:hover {
