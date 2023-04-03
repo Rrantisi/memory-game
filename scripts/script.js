@@ -8,12 +8,14 @@ let lives;
 let score;
 let firstCard, secondCard;
 let firstCardVal, secondCardVal;
-let cardFrontArray;
+let cardFrontArray = [];
 
 /*----- cached elements -----*/
 const playAgainBtn = document.getElementById('play-again');
-const startGameBtn = document.getElementById('start')
+const startGameBtn = document.getElementById('start');
 /*----- event listeners -----*/
+startGameBtn.addEventListener('click', startGame);
+playAgainBtn.addEventListener('click', initialize);
 
 /*----- functions -----*/
 function renderCards(){
@@ -50,6 +52,20 @@ function renderCardValues(){
     }
 }
 
+function startGame(){
+    generateRandom()
+    startGameBtn.style.visibility = 'hidden';
+    const card = document.querySelectorAll('.card');
+    [...card].forEach(card => {
+        card.style.transform = 'rotateY(180deg';
+        setTimeout(() => {
+            card.style.transform = 'rotateY(0deg)';
+            firstCard = ''
+            secondCard = ''
+        }, 3000)
+    })
+}
+
 initialize()
 function initialize(){
     seconds = 0;
@@ -59,10 +75,16 @@ function initialize(){
     secondCard = '';
     firstCardVal = '';
     secondCardVal = '';
-    cardFrontArray = [];
-    render();
+    cardFrontArray.splice(0);
+    playAgainBtn.style.visibility = 'hidden';
+    render()
 }
 
 function render(){
+}
+
+window.onload = function(){
     renderCards();
 }
+
+
