@@ -36,6 +36,18 @@ function generateRandom(){
     }
     cardFrontArray = [...cardFrontArray, ...cardFrontArray];
     cardFrontArray.sort(() => Math.random() - 0.5)
+    renderCardValues();
+}
+
+function renderCardValues(){
+    const front = document.querySelectorAll('.front');
+    const card = document.querySelectorAll('.card');
+    for (let i = 0; i < [...front].length; i++){
+        [...front][i].innerText = `${cardFrontArray[i]}`
+    }
+    for (let i = 0; i < [...card].length; i++){
+        [...card][i].setAttribute('value', `${cardFrontArray[i]}`)
+    }
 }
 
 initialize()
