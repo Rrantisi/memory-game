@@ -5,7 +5,8 @@ const valuesRef = ['🦘', '🦎', '🦁', '🦌', '🐹', '🦤', '🐌', '🦈
 /*----- state variables -----*/
 let seconds;
 let lives;
-let score;
+let moves;
+let winner;
 let firstCard, secondCard;
 let firstCardVal, secondCardVal;
 let cardFrontArray = [];
@@ -13,6 +14,8 @@ let cardFrontArray = [];
 /*----- cached elements -----*/
 const playAgainBtn = document.getElementById('play-again');
 const startGameBtn = document.getElementById('start');
+let cards;
+
 /*----- event listeners -----*/
 startGameBtn.addEventListener('click', startGame);
 playAgainBtn.addEventListener('click', initialize);
@@ -43,36 +46,80 @@ function generateRandom(){
 
 function renderCardValues(){
     const front = document.querySelectorAll('.front');
-    const card = document.querySelectorAll('.card');
+    cards = document.querySelectorAll('.card');
     for (let i = 0; i < [...front].length; i++){
         [...front][i].innerText = `${cardFrontArray[i]}`
     }
-    for (let i = 0; i < [...card].length; i++){
-        [...card][i].setAttribute('value', `${cardFrontArray[i]}`)
+    for (let i = 0; i < [...cards].length; i++){
+        [...cards][i].setAttribute('value', `${cardFrontArray[i]}`)
     }
 }
 
 function startGame(){
     generateRandom()
     startGameBtn.style.visibility = 'hidden';
-    const card = document.querySelectorAll('.card');
-    [...card].forEach(card => {
-        card.style.transform = 'rotateY(180deg';
+    cards = document.querySelectorAll('.card');
+    [...cards].forEach(card => {
+        card.style['transform'] = 'rotateY(180deg)' 
         setTimeout(() => {
-            card.style.transform = 'rotateY(0deg)';
+            card.style['transform'] = 'rotateY(0deg)' 
             firstCard = ''
             secondCard = ''
         }, 3000)
     })
+    playGame();
 }
+
+function playGame(){
+    cards = document.querySelectorAll('.card');
+    [...cards].forEach(card => card.addEventListener(('click'), () => {
+        if (!firstCard){
+            firstCard = card
+            firstCardVal = firstCard.getAttribute('value');
+            card.style['transform'] = 'rotateY(180deg)';
+        } else {
+            secondCard = card;
+            secondCardVal = secondCard.getAttribute('value');
+            card.style['transform'] = 'rotateY(180deg)';
+        }
+        if(!firstCard || !secondCard) return;
+        if(firstCardVal === secondCardVal){
+            console.log('matched')
+            firstCard = '';
+            secondCard = '';
+            moves++;
+            updateStats();
+        }else{
+            console.log('try again');
+            let [card1, card2] = [firstCard, secondCard]
+            setTimeout(() => {
+                card1.style['transform'] = 'rotateY(0deg)';
+                card2.style['transform'] = 'rotateY(0deg)';        
+            }, 1000);  
+            lives--;
+            moves++;
+            updateStats();
+            firstCard = '';
+            secondCard = '';
+        }
+    }))
+}
+
+function updateStats(){
+    document.getElementById('score').innerText = `Your Score: ${moves}`;
+    document.getElementById('lives').innerText = `Lives: ${lives}`
+}
+
+
+
+
 
 initialize()
 function initialize(){
     seconds = 0;
     lives = 10;
-    score = 0;
-    firstCard = '';
-    secondCard = '';
+    moves = 0;
+    winner = false;
     firstCardVal = '';
     secondCardVal = '';
     cardFrontArray.splice(0);
