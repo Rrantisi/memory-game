@@ -27,6 +27,17 @@ function renderCards(){
     }
 }
 
+function generateRandom(){
+    let tempValuesArr = [...valuesRef];
+    for (let i = 0; i < 10; i++){
+        let randomIdx = Math.floor(Math.random() * tempValuesArr.length);
+        cardFrontArray.push(tempValuesArr[randomIdx]);
+        tempValuesArr.splice(randomIdx, 1)
+    }
+    cardFrontArray = [...cardFrontArray, ...cardFrontArray];
+    cardFrontArray.sort(() => Math.random() - 0.5)
+}
+
 initialize()
 function initialize(){
     seconds = 0;
