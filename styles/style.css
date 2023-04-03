@@ -47,7 +47,7 @@ p {
 
 .card {
     transform-style: preserve-3d;
-    transition: all 0.5s ease;
+    transition: all 1s ease;
     height: 14vmin;
     z-index: 0;
     margin-top: 5vmin;
@@ -58,10 +58,16 @@ p {
     position: absolute;
     top: 0;
     width: 100%;
+    transition: transform 1s ease-out;
 }
 
 .front {
     height: 14vmin;
+    background-color: white;
+    border: 1vmin solid lightgrey;
+    height: 14vmin;
+    font-size: 8vmin;
+    text-align: center;
 }
 
 .back {
@@ -72,6 +78,7 @@ p {
     background-size: 5% 5%;
     border: 0.3vmin solid lightgray;
     height: 14vmin;
+    backface-visibility: hidden;
 }
 
 button {
