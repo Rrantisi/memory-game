@@ -99,7 +99,7 @@ function playGame(){
                         card.classList.add('flipped')
                         card.style['transform'] = 'rotateY(180deg)';
                     } 
-                    // checkOneFlip();
+                    checkOneFlip();
                 }
             checkMatch();
         }
@@ -114,26 +114,40 @@ function checkMatch(){
         matchedArray.push(firstCard.innerText, secondCard.innerText)
         firstCard = '';
         secondCard = '';
-        moves++;
     } else {
         let [card1, card2] = [firstCard, secondCard]
         setTimeout(() => {
             card1.style['transform'] = 'rotateY(0deg)';
-            card1.classList.remove('flipped')
             card2.style['transform'] = 'rotateY(0deg)';  
-            card2.classList.remove('flipped') 
         }, 600);  
-        --lives;
-        ++moves;
+        card1.classList.remove('flipped')
+        card2.classList.remove('flipped') 
+        // --lives;
         firstCard = '';
         secondCard = '';
     }
     render();
 }
 
+function checkOneFlip(){
+    if(!secondCard){
+        setTimeout(() => {
+            let card = firstCard;
+            if(firstCard){
+                card.classList.remove('flipped');
+                card.style['transform'] = 'rotateY(0deg)';    
+            }
+            firstCard = '';
+            secondCard = '';
+
+        }, 3500)
+    }
+    return;
+}
+
 function checkGameOver(){
     lives === 0 || timeOut ? renderLoseMsg() : gameOver = false;
-    lives === 0 ? clearInterval(timeInterval) : gameOver = false;
+    lives === 0 || timeOut ? clearInterval(timeInterval) : gameOver = false;
 }
 
 function checkWinState(){
@@ -187,9 +201,7 @@ function renderWinMsg(){
     playAgainBtn.style.visibility = 'visible';
 }
 
-
 function renderTime(){
-    // let timeLeft = 5;
     timeLeft--;
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60
@@ -197,7 +209,6 @@ function renderTime(){
     timeRef.innerText = `${minutes}:${seconds}`;
 
     if(timeLeft === 0){
-        clearInterval(timeInterval);
         timeOut = true;
         checkGameOver();
     }
