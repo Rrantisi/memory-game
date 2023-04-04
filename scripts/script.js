@@ -106,6 +106,14 @@ function playGame(){
     }))
 }
 
+function checkGameOver(){
+    lives === 0 ? renderLoseMsg() : gameOver = false;
+}
+
+function checkWinState(){
+    matchedArray.length === 20 ? renderWinMsg() : winner = false;
+}
+
 function renderTime(){
     setInterval(() => {
         seconds++
