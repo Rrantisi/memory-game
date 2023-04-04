@@ -3,18 +3,16 @@ const valuesRef = ['🦘', '🦎', '🦁', '🦌', '🐹', '🦤', '🐌', '🦈
                     '🐯', '🦄', '🐩', '🐻', '🦙', '🐳', '🦖', '🦝', '🐎', '🦒']
 
 /*----- state variables -----*/
-let seconds, minutes;
 let lives;
 let moves;
 let bestScore;
 let winner;
 let gameOver;
+let timeOut, timeLeft, timeInterval;
 let matchedArray;
 let firstCard, secondCard;
 let firstCardVal, secondCardVal;
 let cardFrontArray = [];
-let minutesRef = document.getElementById('minutes');
-let secondsRef = document.getElementById('seconds');
 
 /*----- cached elements -----*/
 const playAgainBtn = document.getElementById('play-again');
@@ -23,6 +21,7 @@ const gameContainer = document.getElementById('game-container');
 const messageContainer = document.getElementById('message-container');
 const livesRef = document.getElementById('lives');
 const scoreRef = document.getElementById('score');
+let timeRef = document.querySelector('#timer span')
 let cards;
 
 /*----- event listeners -----*/
@@ -60,7 +59,7 @@ function renderCardValues(){
         [...front][i].innerText = `${cardFrontArray[i]}`
     }
     for (let i = 0; i < [...cards].length; i++){
-        [...cards][i].setAttribute('value', `${cardFrontArray[i]}`)
+        [...cards][i].setAttribute('value', `${cardFrontArray[i]}`);
     }
 }
 
@@ -77,6 +76,7 @@ function startGame(){
         }, 3000)
     })
     setTimeout(() => {
+        timeInterval = setInterval(renderTime, 1000)
         renderTime();
         playGame();
     }, 3000);
@@ -99,19 +99,75 @@ function playGame(){
                         card.classList.add('flipped')
                         card.style['transform'] = 'rotateY(180deg)';
                     } 
-                    checkOneFlip();
+                    // checkOneFlip();
                 }
             checkMatch();
         }
     }))
 }
 
+function checkMatch(){
+    if(!firstCard || !secondCard) return;
+    if(firstCardVal === secondCardVal){
+        firstCard.classList.add('matched');
+        secondCard.classList.add('matched');
+        matchedArray.push(firstCard.innerText, secondCard.innerText)
+        firstCard = '';
+        secondCard = '';
+        moves++;
+    } else {
+        let [card1, card2] = [firstCard, secondCard]
+        setTimeout(() => {
+            card1.style['transform'] = 'rotateY(0deg)';
+            card1.classList.remove('flipped')
+            card2.style['transform'] = 'rotateY(0deg)';  
+            card2.classList.remove('flipped') 
+        }, 600);  
+        --lives;
+        ++moves;
+        firstCard = '';
+        secondCard = '';
+    }
+    render();
+}
+
 function checkGameOver(){
-    lives === 0 ? renderLoseMsg() : gameOver = false;
+    lives === 0 || timeOut ? renderLoseMsg() : gameOver = false;
+    lives === 0 ? clearInterval(timeInterval) : gameOver = false;
 }
 
 function checkWinState(){
     matchedArray.length === 20 ? renderWinMsg() : winner = false;
+}
+
+function updateStats(score, lives){
+    scoreRef.innerText = `Your Score: ${score}`;
+    livesRef.innerText = `Lives: ${lives}`
+}
+
+initialize()
+
+function initialize(){
+    lives = 10;
+    moves = 0;
+    winner = false;
+    gameOver = false;
+    timeOut = false;
+    timeLeft = 45;
+    matchedArray = [];
+    firstCardVal = '';
+    secondCardVal = '';
+    cardFrontArray.splice(0);
+    playAgainBtn.style.visibility = 'hidden';
+    startGameBtn.style.visibility = 'visible';
+    messageContainer.classList.add('hide');
+    render()
+}
+
+function render(){
+    updateStats(moves, lives);
+    checkWinState();
+    checkGameOver();
 }
 
 function renderLoseMsg(){
@@ -131,47 +187,22 @@ function renderWinMsg(){
     playAgainBtn.style.visibility = 'visible';
 }
 
+
 function renderTime(){
-    setInterval(() => {
-        seconds++
-        if(seconds >= 60){
-            seconds = 0;
-            minutes++
-        }
-        minutes < 10 ? minutesRef.innerText = `0${minutes}` : minutesRef.innerText = `${minutes}`;
-        seconds < 10 ? secondsRef.innerText = `0${seconds}` : secondsRef.innerText = `${seconds}`;
-    }, 1000)  
+    // let timeLeft = 5;
+    timeLeft--;
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60
+    seconds < 10 ? seconds = `0${seconds}` : seconds = `${seconds}`;
+    timeRef.innerText = `${minutes}:${seconds}`;
+
+    if(timeLeft === 0){
+        clearInterval(timeInterval);
+        timeOut = true;
+        checkGameOver();
+    }
 }
 
-function updateStats(score, lives){
-    scoreRef.innerText = `Your Score: ${score}`;
-    livesRef.innerText = `Lives: ${lives}`
-}
-
-initialize()
-
-function initialize(){
-    seconds = 0;
-    minutes = 0;
-    lives = 12;
-    moves = 0;
-    winner = false;
-    gameOver = false;
-    matchedArray = [];
-    firstCardVal = '';
-    secondCardVal = '';
-    cardFrontArray.splice(0);
-    playAgainBtn.style.visibility = 'hidden';
-    startGameBtn.style.visibility = 'visible';
-    messageContainer.classList.add('hide')
-    render()
-}
-
-function render(){
-    updateStats(moves, lives);
-    checkWinState();
-    checkGameOver();
-}
 
 window.onload = function(){
     renderCards();
