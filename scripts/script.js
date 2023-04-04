@@ -114,6 +114,23 @@ function checkWinState(){
     matchedArray.length === 20 ? renderWinMsg() : winner = false;
 }
 
+function renderLoseMsg(){
+    lives = 0;
+    messageContainer.classList.remove('hide');
+    messageContainer.innerHTML = `
+    <p>GAME OVER</p>
+    `
+    playAgainBtn.style.visibility = 'visible';
+}
+
+function renderWinMsg(){
+    messageContainer.classList.remove('hide');
+    messageContainer.innerHTML = `
+    <p>YOU WON!!!</p>
+    `
+    playAgainBtn.style.visibility = 'visible';
+}
+
 function renderTime(){
     setInterval(() => {
         seconds++
