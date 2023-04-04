@@ -3,17 +3,26 @@ const valuesRef = ['🦘', '🦎', '🦁', '🦌', '🐹', '🦤', '🐌', '🦈
                     '🐯', '🦄', '🐩', '🐻', '🦙', '🐳', '🦖', '🦝', '🐎', '🦒']
 
 /*----- state variables -----*/
-let seconds;
+let seconds, minutes;
 let lives;
 let moves;
+let bestScore;
 let winner;
+let gameOver;
+let matchedArray;
 let firstCard, secondCard;
 let firstCardVal, secondCardVal;
 let cardFrontArray = [];
+let minutesRef = document.getElementById('minutes');
+let secondsRef = document.getElementById('seconds');
 
 /*----- cached elements -----*/
 const playAgainBtn = document.getElementById('play-again');
 const startGameBtn = document.getElementById('start');
+const gameContainer = document.getElementById('game-container');
+const messageContainer = document.getElementById('message-container');
+const livesRef = document.getElementById('lives');
+const scoreRef = document.getElementById('score');
 let cards;
 
 /*----- event listeners -----*/
@@ -67,71 +76,78 @@ function startGame(){
             secondCard = ''
         }, 3000)
     })
-    playGame();
+    setTimeout(() => {
+        renderTime();
+        playGame();
+    }, 3000);
 }
 
 function playGame(){
     cards = document.querySelectorAll('.card');
     [...cards].forEach(card => card.addEventListener(('click'), () => {
-        if (!firstCard){
-            firstCard = card
-            firstCardVal = firstCard.getAttribute('value');
-            card.style['transform'] = 'rotateY(180deg)';
-        } else {
-            secondCard = card;
-            secondCardVal = secondCard.getAttribute('value');
-            card.style['transform'] = 'rotateY(180deg)';
-        }
-        if(!firstCard || !secondCard) return;
-        if(firstCardVal === secondCardVal){
-            console.log('matched')
-            firstCard = '';
-            secondCard = '';
-            moves++;
-            updateStats();
-        }else{
-            console.log('try again');
-            let [card1, card2] = [firstCard, secondCard]
-            setTimeout(() => {
-                card1.style['transform'] = 'rotateY(0deg)';
-                card2.style['transform'] = 'rotateY(0deg)';        
-            }, 1000);  
-            lives--;
-            moves++;
-            updateStats();
-            firstCard = '';
-            secondCard = '';
+        if(!matchedArray.includes(card.innerText)){
+                if(card.className !== 'flipped'){
+                    if (!firstCard){
+                        firstCard = card
+                        firstCardVal = firstCard.getAttribute('value');
+                        card.classList.add('flipped')
+                        card.style['transform'] = 'rotateY(180deg)'; 
+                    } else {
+                        secondCard = card;
+                        secondCardVal = secondCard.getAttribute('value');
+                        if(card.className.includes('flipped')) return;
+                        card.classList.add('flipped')
+                        card.style['transform'] = 'rotateY(180deg)';
+                    } 
+                    checkOneFlip();
+                }
+            checkMatch();
         }
     }))
 }
 
-function updateStats(){
-    document.getElementById('score').innerText = `Your Score: ${moves}`;
-    document.getElementById('lives').innerText = `Lives: ${lives}`
+function renderTime(){
+    setInterval(() => {
+        seconds++
+        if(seconds >= 60){
+            seconds = 0;
+            minutes++
+        }
+        minutes < 10 ? minutesRef.innerText = `0${minutes}` : minutesRef.innerText = `${minutes}`;
+        seconds < 10 ? secondsRef.innerText = `0${seconds}` : secondsRef.innerText = `${seconds}`;
+    }, 1000)  
 }
 
-
-
-
+function updateStats(score, lives){
+    scoreRef.innerText = `Your Score: ${score}`;
+    livesRef.innerText = `Lives: ${lives}`
+}
 
 initialize()
+
 function initialize(){
     seconds = 0;
-    lives = 10;
+    minutes = 0;
+    lives = 12;
     moves = 0;
     winner = false;
+    gameOver = false;
+    matchedArray = [];
     firstCardVal = '';
     secondCardVal = '';
     cardFrontArray.splice(0);
     playAgainBtn.style.visibility = 'hidden';
+    startGameBtn.style.visibility = 'visible';
+    messageContainer.classList.add('hide')
     render()
 }
 
 function render(){
+    updateStats(moves, lives);
+    checkWinState();
+    checkGameOver();
 }
 
 window.onload = function(){
     renderCards();
 }
-
-
