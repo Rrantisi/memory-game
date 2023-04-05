@@ -35,7 +35,7 @@ body {
     margin-top: 1vmin;
 }
 
-#message-container > p > span {
+#message-container span {
     font-size: 4vmin;
 }
 
