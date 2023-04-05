@@ -10,11 +10,11 @@ Player score will be the same as the moves count. The lower the number, the high
 ----------------------------------------------------------------------------------------
                                     SCREENSHOTS
 ----------------------------------------------------------------------------------------
+![Alt text](https://github.com/Rrantisi/memory-game/blob/0db4422d70e860dea5575d6098ea83ab8059bf25/Screen%20Shot%202023-04-05%20at%2011.30.33%20AM.png "Screenshot")
 
 ![Alt text](https://github.com/Rrantisi/memory-game/blob/5374c667e90255f850e57990ef84a7699ececf6c/Screen%20Shot%202023-04-05%20at%2011.30.18%20AM.png "Screenshot")
-<!-- ![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.18 AM.png')
-![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.33 AM.png')
-![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.56 AM.png') -->
+
+![Alt text](https://github.com/Rrantisi/memory-game/blob/0db4422d70e860dea5575d6098ea83ab8059bf25/Screen%20Shot%202023-04-05%20at%2011.30.56%20AM.png "Screenshot")
 
 ----------------------------------------------------------------------------------------
                                 TECHNOLOGIES USED
