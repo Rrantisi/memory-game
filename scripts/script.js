@@ -1,15 +1,20 @@
 /*----- constants -----*/
 const valuesRef = ['🦘', '🦎', '🦁', '🦌', '🐹', '🦤', '🐌', '🦈', '🦉', '🐕',
-                    '🐯', '🦄', '🐩', '🐻', '🦙', '🐳', '🦖', '🦝', '🐎', '🦒']
+                    '🐯', '🦄', '🐩', '🐻', '🦙', '🐳', '🦖', '🦝', '🐎', '🦒'];
+
+const audio = {
+    gameOverAudio: new Audio('game-over.mp3'),
+    youWinAudio: new Audio('you-win.mp3'),
+}
 
 /*----- state variables -----*/
 let lives, moves;
 let winner, gameOver;
 let timeLeft, timeOut;
 let timeInterval, oneFlipInterval;
-let matchedArray;
 let firstCard, secondCard;
 let firstCardVal, secondCardVal;
+let matchedArray;
 let cardFrontArray = [];
 
 /*----- cached elements -----*/
@@ -81,23 +86,28 @@ function playGame() {
     [...cards].forEach(card => card.addEventListener(('click'), () => {
         if(!matchedArray.includes(card.innerText)) {
             if(card.className !== 'flipped') {
+                let cardFlipAudio = new Audio('card-flip.mp3')
+                cardFlipAudio.play();            
                 if (!firstCard){
                     firstCard = card
                     firstCardVal = firstCard.getAttribute('value');
-                    card.classList.add('flipped')
-                    card.style['transform'] = 'rotateY(180deg)'; 
+                    flip(card);
                 } else {
                     secondCard = card;
                     secondCardVal = secondCard.getAttribute('value');
                     if(card.className.includes('flipped')) return;
-                    card.classList.add('flipped')
-                    card.style['transform'] = 'rotateY(180deg)';
+                    flip(card);
                 } 
                 checkOneFlip();
                 checkMatch();
             }
         }
     }))
+}
+
+function flip(element){
+    element.classList.add('flipped');
+    element.style['transform'] = 'rotateY(180deg)'
 }
 
 function checkMatch() {
@@ -137,6 +147,7 @@ function checkOneFlip() {
             secondCard = '';
             lives--;
             moves++;
+            render();
         }, 3000)
     } else {
         clearTimeout(oneFlipInterval)
@@ -199,8 +210,10 @@ function renderLoseMsg() {
     lives = 0;
     messageContainer.classList.remove('hide');
     messageContainer.innerHTML = `
-    <p>GAME OVER</p>
+    <h2>GAME OVER</h2>
     `
+    audio.gameOverAudio.play();
+
     playAgainBtn.style.visibility = 'visible';
 }
 
@@ -210,6 +223,8 @@ function renderWinMsg() {
     <h2>YOU WON!!!</h2>
     <p>Your Score: <span> ${moves} </span></p>
     `
+    audio.youWinAudio.play();
+
     playAgainBtn.style.visibility = 'visible';
 }
 
