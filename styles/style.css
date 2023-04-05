@@ -13,6 +13,32 @@ body {
     font-family: 'Michroma', sans-serif;
 }
 
+#message-container {
+    position: absolute;
+    margin-top: 6vmin;
+    width: 90vmin;
+    padding: 15vmin;
+    background-color: rgba(47, 79, 79, 0.889);
+    z-index: 1;
+}
+
+#message-container > h2 {
+    font-size: 5vmin;
+    text-align: center;
+    color: white;
+}
+
+#message-container > p {
+    font-size: 3vmin;
+    text-align: center;
+    color: white;
+    margin-top: 1vmin;
+}
+
+#message-container > p > span {
+    font-size: 4vmin;
+}
+
 header {
     font-size: 4vmin;
     letter-spacing: 1vmin;
@@ -32,7 +58,7 @@ p {
     margin-bottom: -5vmin;
 }
 
-#stats > p, #stats > div {
+#stats > p {
     padding: 3vmin 8vmin;
     margin: 1vmin 0;
 }
@@ -53,6 +79,7 @@ p {
     z-index: 0;
     margin-top: 5vmin;
     position: relative;
+    cursor: pointer;
 }
 
 .front, .back {
@@ -100,7 +127,7 @@ button {
     color: white;
     background-color: grey;
     z-index: 1;
-    margin-top: 5vmin;
+    margin-top: 6vmin;
 }
 
 #play-again {
@@ -108,7 +135,7 @@ button {
     padding: 2.5vmin;
     color: grey;
     background-color: white;
-    margin: 8vmin 0;
+    margin: 4vmin 0;
 }
 
 #start:hover {
@@ -119,6 +146,10 @@ button {
 #play-again:hover {
     background-color: grey;
     color: white;
+}
+
+.hide {
+    display: none;
 }
 
 
