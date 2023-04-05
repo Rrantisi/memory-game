@@ -3,12 +3,10 @@ const valuesRef = ['🦘', '🦎', '🦁', '🦌', '🐹', '🦤', '🐌', '🦈
                     '🐯', '🦄', '🐩', '🐻', '🦙', '🐳', '🦖', '🦝', '🐎', '🦒']
 
 /*----- state variables -----*/
-let lives;
-let moves;
-let bestScore;
-let winner;
-let gameOver;
-let timeOut, timeLeft, timeInterval;
+let lives, moves;
+let winner, gameOver;
+let timeLeft, timeOut;
+let timeInterval, oneFlipInterval;
 let matchedArray;
 let firstCard, secondCard;
 let firstCardVal, secondCardVal;
@@ -20,7 +18,7 @@ const startGameBtn = document.getElementById('start');
 const gameContainer = document.getElementById('game-container');
 const messageContainer = document.getElementById('message-container');
 const livesRef = document.getElementById('lives');
-const scoreRef = document.getElementById('score');
+const movesRef = document.getElementById('moves');
 let timeRef = document.querySelector('#timer span')
 let cards;
 
@@ -29,7 +27,7 @@ startGameBtn.addEventListener('click', startGame);
 playAgainBtn.addEventListener('click', initialize);
 
 /*----- functions -----*/
-function renderCards(){
+function renderCards() {
     for (let i = 0; i < 20; i++){
         document.getElementById('cards').innerHTML += `
             <div class="card">
@@ -40,9 +38,9 @@ function renderCards(){
     }
 }
 
-function generateRandom(){
+function generateRandom() {
     let tempValuesArr = [...valuesRef];
-    for (let i = 0; i < 10; i++){
+    for (let i = 0; i < 10 ; i++){
         let randomIdx = Math.floor(Math.random() * tempValuesArr.length);
         cardFrontArray.push(tempValuesArr[randomIdx]);
         tempValuesArr.splice(randomIdx, 1)
@@ -52,7 +50,7 @@ function generateRandom(){
     renderCardValues();
 }
 
-function renderCardValues(){
+function renderCardValues() {
     const front = document.querySelectorAll('.front');
     cards = document.querySelectorAll('.card');
     for (let i = 0; i < [...front].length; i++){
@@ -63,7 +61,7 @@ function renderCardValues(){
     }
 }
 
-function startGame(){
+function startGame() {
     generateRandom()
     startGameBtn.style.visibility = 'hidden';
     cards = document.querySelectorAll('.card');
@@ -73,7 +71,7 @@ function startGame(){
             card.style['transform'] = 'rotateY(0deg)' 
             firstCard = ''
             secondCard = ''
-        }, 3000)
+        }, 4000)
     })
     setTimeout(() => {
         timeInterval = setInterval(renderTime, 1000)
@@ -82,11 +80,11 @@ function startGame(){
     }, 3000);
 }
 
-function playGame(){
+function playGame() {
     cards = document.querySelectorAll('.card');
     [...cards].forEach(card => card.addEventListener(('click'), () => {
-        if(!matchedArray.includes(card.innerText)){
-                if(card.className !== 'flipped'){
+        if(!matchedArray.includes(card.innerText)) {
+                if(card.className !== 'flipped') {
                     if (!firstCard){
                         firstCard = card
                         firstCardVal = firstCard.getAttribute('value');
@@ -100,20 +98,21 @@ function playGame(){
                         card.style['transform'] = 'rotateY(180deg)';
                     } 
                     checkOneFlip();
+                    checkMatch();
                 }
-            checkMatch();
         }
     }))
 }
 
-function checkMatch(){
+function checkMatch() {
     if(!firstCard || !secondCard) return;
-    if(firstCardVal === secondCardVal){
+    if(firstCardVal === secondCardVal) {
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
         matchedArray.push(firstCard.innerText, secondCard.innerText)
         firstCard = '';
         secondCard = '';
+        moves++
     } else {
         let [card1, card2] = [firstCard, secondCard]
         setTimeout(() => {
@@ -122,47 +121,62 @@ function checkMatch(){
         }, 600);  
         card1.classList.remove('flipped')
         card2.classList.remove('flipped') 
-        // --lives;
         firstCard = '';
         secondCard = '';
+        moves++
+        lives--
     }
     render();
 }
 
-function checkOneFlip(){
+function checkOneFlip() {
     if(!secondCard){
-        setTimeout(() => {
+        oneFlipInterval = setTimeout(() => {
             let card = firstCard;
-            if(firstCard){
+            if(firstCard) {
                 card.classList.remove('flipped');
                 card.style['transform'] = 'rotateY(0deg)';    
             }
             firstCard = '';
             secondCard = '';
-
-        }, 3500)
+            lives--;
+            moves++;
+        }, 4000)
+    } else {
+        clearTimeout(oneFlipInterval)
     }
     return;
 }
 
-function checkGameOver(){
+function removeFlippedMatched(){
+    cards = document.querySelectorAll('.card');
+    [...cards].forEach((card)=> {
+        if(card.className.includes('matched') || card.className.includes('flipped')){
+            card.classList.remove('flipped');
+            card.classList.remove('matched')
+        }
+    })
+}
+
+function checkGameOver() {
     lives === 0 || timeOut ? renderLoseMsg() : gameOver = false;
     lives === 0 || timeOut ? clearInterval(timeInterval) : gameOver = false;
 }
 
-function checkWinState(){
-    matchedArray.length === 20 ? renderWinMsg() : winner = false;
+function checkWinState() {
+    matchedArray.length === 20 ? (renderWinMsg(), winner = true) : winner = false;
+    winner ? clearInterval(timeInterval) : winner = false;
 }
 
-function updateStats(score, lives){
-    scoreRef.innerText = `Your Score: ${score}`;
+function updateStats() {
+    movesRef.innerText = `Moves: ${moves}`;
     livesRef.innerText = `Lives: ${lives}`
 }
 
 initialize()
 
-function initialize(){
-    lives = 10;
+function initialize() {
+    lives = 12;
     moves = 0;
     winner = false;
     gameOver = false;
@@ -175,16 +189,17 @@ function initialize(){
     playAgainBtn.style.visibility = 'hidden';
     startGameBtn.style.visibility = 'visible';
     messageContainer.classList.add('hide');
+    removeFlippedMatched();
     render()
 }
 
-function render(){
-    updateStats(moves, lives);
+function render() {
+    updateStats();
     checkWinState();
     checkGameOver();
 }
 
-function renderLoseMsg(){
+function renderLoseMsg() {
     lives = 0;
     messageContainer.classList.remove('hide');
     messageContainer.innerHTML = `
@@ -193,28 +208,31 @@ function renderLoseMsg(){
     playAgainBtn.style.visibility = 'visible';
 }
 
-function renderWinMsg(){
+function renderWinMsg() {
     messageContainer.classList.remove('hide');
     messageContainer.innerHTML = `
-    <p>YOU WON!!!</p>
+    <h2>YOU WON!!!</h2>
+    <p>Your Score: <span> ${moves} </span></p>
     `
     playAgainBtn.style.visibility = 'visible';
 }
 
-function renderTime(){
+function renderTime() {
     timeLeft--;
     let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60
+    let seconds = timeLeft  % 60;
     seconds < 10 ? seconds = `0${seconds}` : seconds = `${seconds}`;
     timeRef.innerText = `${minutes}:${seconds}`;
 
-    if(timeLeft === 0){
+    let timer = document.getElementById('timer');
+    timeLeft <= 5 ? timer.style.color = 'red' : timer.style.color = 'grey';
+
+    if(timeLeft === 0) {
         timeOut = true;
         checkGameOver();
     }
 }
 
-
-window.onload = function(){
+window.onload = function() {
     renderCards();
 }
