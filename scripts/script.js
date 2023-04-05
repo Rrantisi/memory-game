@@ -15,11 +15,7 @@ let cardFrontArray = [];
 /*----- cached elements -----*/
 const playAgainBtn = document.getElementById('play-again');
 const startGameBtn = document.getElementById('start');
-const gameContainer = document.getElementById('game-container');
 const messageContainer = document.getElementById('message-container');
-const livesRef = document.getElementById('lives');
-const movesRef = document.getElementById('moves');
-let timeRef = document.querySelector('#timer span')
 let cards;
 
 /*----- event listeners -----*/
@@ -84,22 +80,22 @@ function playGame() {
     cards = document.querySelectorAll('.card');
     [...cards].forEach(card => card.addEventListener(('click'), () => {
         if(!matchedArray.includes(card.innerText)) {
-                if(card.className !== 'flipped') {
-                    if (!firstCard){
-                        firstCard = card
-                        firstCardVal = firstCard.getAttribute('value');
-                        card.classList.add('flipped')
-                        card.style['transform'] = 'rotateY(180deg)'; 
-                    } else {
-                        secondCard = card;
-                        secondCardVal = secondCard.getAttribute('value');
-                        if(card.className.includes('flipped')) return;
-                        card.classList.add('flipped')
-                        card.style['transform'] = 'rotateY(180deg)';
-                    } 
-                    checkOneFlip();
-                    checkMatch();
-                }
+            if(card.className !== 'flipped') {
+                if (!firstCard){
+                    firstCard = card
+                    firstCardVal = firstCard.getAttribute('value');
+                    card.classList.add('flipped')
+                    card.style['transform'] = 'rotateY(180deg)'; 
+                } else {
+                    secondCard = card;
+                    secondCardVal = secondCard.getAttribute('value');
+                    if(card.className.includes('flipped')) return;
+                    card.classList.add('flipped')
+                    card.style['transform'] = 'rotateY(180deg)';
+                } 
+                checkOneFlip();
+                checkMatch();
+            }
         }
     }))
 }
@@ -141,7 +137,7 @@ function checkOneFlip() {
             secondCard = '';
             lives--;
             moves++;
-        }, 4000)
+        }, 3000)
     } else {
         clearTimeout(oneFlipInterval)
     }
@@ -154,7 +150,7 @@ function removeFlippedMatched(){
         if(card.className.includes('matched') || card.className.includes('flipped')){
             card.classList.remove('flipped');
             card.classList.remove('matched')
-        }
+        }    
     })
 }
 
@@ -169,8 +165,8 @@ function checkWinState() {
 }
 
 function updateStats() {
-    movesRef.innerText = `Moves: ${moves}`;
-    livesRef.innerText = `Lives: ${lives}`
+    document.getElementById('moves').innerText = `Moves: ${moves}`;
+    document.getElementById('lives').innerText = `Lives: ${lives}`
 }
 
 initialize()
@@ -222,7 +218,7 @@ function renderTime() {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft  % 60;
     seconds < 10 ? seconds = `0${seconds}` : seconds = `${seconds}`;
-    timeRef.innerText = `${minutes}:${seconds}`;
+    document.querySelector('#timer span').innerText = `${minutes}:${seconds}`;
 
     let timer = document.getElementById('timer');
     timeLeft <= 5 ? timer.style.color = 'red' : timer.style.color = 'grey';
