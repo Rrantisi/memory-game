@@ -11,14 +11,15 @@ Player score will be the same as the moves count. The lower the number, the high
                                     SCREENSHOTS
 ----------------------------------------------------------------------------------------
 
-![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.18 AM.png')
+![Alt text](https://github.com/Rrantisi/memory-game/blob/5374c667e90255f850e57990ef84a7699ececf6c/Screen%20Shot%202023-04-05%20at%2011.30.18%20AM.png "Screenshot")
+<!-- ![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.18 AM.png')
 ![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.33 AM.png')
-![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.56 AM.png')
+![Game Screenshots]('Screen Shot 2023-04-05 at 11.30.56 AM.png') -->
 
 ----------------------------------------------------------------------------------------
                                 TECHNOLOGIES USED
 ----------------------------------------------------------------------------------------
-1. The game logic was built using Vanilla JavaScript
+1. Coded game logic using Vanilla JavaScript
 2. Styled and created the visual aspects using HTML5 and CSS3 grid and Flexbox containers
 
 ----------------------------------------------------------------------------------------
