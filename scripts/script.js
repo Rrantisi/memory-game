@@ -13,7 +13,6 @@ let winner, gameOver;
 let timeLeft, timeOut;
 let timeInterval, oneFlipInterval;
 let firstCard, secondCard;
-let firstCardVal, secondCardVal;
 let matchedArray;
 let cardFrontArray = [];
 
@@ -90,11 +89,9 @@ function playGame() {
                 cardFlipAudio.play();            
                 if (!firstCard){
                     firstCard = card
-                    firstCardVal = firstCard.getAttribute('value');
                     flip(card);
                 } else {
                     secondCard = card;
-                    secondCardVal = secondCard.getAttribute('value');
                     if(card.className.includes('flipped')) return;
                     flip(card);
                 } 
@@ -112,7 +109,7 @@ function flip(element){
 
 function checkMatch() {
     if(!firstCard || !secondCard) return;
-    if(firstCardVal === secondCardVal) {
+    if(firstCard.getAttribute('value') === secondCard.getAttribute('value')) {
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
         matchedArray.push(firstCard.innerText, secondCard.innerText)
@@ -132,7 +129,7 @@ function checkMatch() {
         moves++
         lives--
     }
-    render();
+    checkGameStatus();
 }
 
 function checkOneFlip() {
@@ -165,17 +162,51 @@ function removeFlippedMatched(){
     })
 }
 
-function checkGameOver() {
-    lives === 0 || timeOut ? renderLoseMsg() : gameOver = false;
-    lives === 0 || timeOut ? clearInterval(timeInterval) : gameOver = false;
+function checkGameStatus() {
+    if (matchedArray.length === 20) {
+        winner = true;
+        gameInPlay = false;
+        clearInterval(timeInterval)  
+    } else !winner
+    if (lives === 0 || timeOut) {
+        timeLeft = 0;
+        gameOver = true
+        gameInPlay = false;
+        clearInterval(timeInterval)    
+    } else !gameOver
+    render();
 }
 
-function checkWinState() {
-    matchedArray.length === 20 ? (renderWinMsg(), winner = true) : winner = false;
-    winner ? clearInterval(timeInterval) : winner = false;
+function renderMessage() {
+    if(winner) {
+        messageContainer.innerHTML = `
+        <h2>YOU WON!!!</h2>
+        <p>Your Score: <span> ${moves} </span></p>
+        `
+        audio.youWinAudio.play();
+    } else gameInPlay;
+    if(gameOver) {
+        lives = 0;
+        messageContainer.innerHTML = `
+        <h2>GAME OVER</h2>
+        `
+        audio.gameOverAudio.play();
+    } else gameInPlay;
+
+    removeFlippedMatched();
 }
 
-function updateStats() {
+function renderControls() {
+    if(!gameInPlay) {
+        playAgainBtn.style.visibility = 'visible';
+        messageContainer.classList.remove('hide');
+    } else {
+        playAgainBtn.style.visibility = 'hidden';
+        messageContainer.classList.add('hide');
+    }
+}
+
+function renderScore() {
     document.getElementById('moves').innerText = `Moves: ${moves}`;
     document.getElementById('lives').innerText = `Lives: ${lives}`
 }
@@ -187,45 +218,19 @@ function initialize() {
     moves = 0;
     winner = false;
     gameOver = false;
+    gameInPlay = true;
     timeOut = false;
     timeLeft = 45;
     matchedArray = [];
-    firstCardVal = '';
-    secondCardVal = '';
     cardFrontArray.splice(0);
-    playAgainBtn.style.visibility = 'hidden';
     startGameBtn.style.visibility = 'visible';
-    messageContainer.classList.add('hide');
-    removeFlippedMatched();
     render()
 }
 
 function render() {
-    updateStats();
-    checkWinState();
-    checkGameOver();
-}
-
-function renderLoseMsg() {
-    lives = 0;
-    messageContainer.classList.remove('hide');
-    messageContainer.innerHTML = `
-    <h2>GAME OVER</h2>
-    `
-    audio.gameOverAudio.play();
-
-    playAgainBtn.style.visibility = 'visible';
-}
-
-function renderWinMsg() {
-    messageContainer.classList.remove('hide');
-    messageContainer.innerHTML = `
-    <h2>YOU WON!!!</h2>
-    <p>Your Score: <span> ${moves} </span></p>
-    `
-    audio.youWinAudio.play();
-
-    playAgainBtn.style.visibility = 'visible';
+    renderScore();
+    renderMessage();
+    renderControls();
 }
 
 function renderTime() {
@@ -238,9 +243,10 @@ function renderTime() {
     let timer = document.getElementById('timer');
     timeLeft <= 5 ? timer.style.color = 'red' : timer.style.color = 'grey';
 
-    if(timeLeft === 0) {
+    if(timeLeft <= 0) {
+        clearInterval(timeInterval);
         timeOut = true;
-        checkGameOver();
+        checkGameStatus();
     }
 }
 
