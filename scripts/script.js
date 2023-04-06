@@ -12,8 +12,7 @@ let winner, gameOver;
 let timeLeft, timeOut;
 let timeInterval, oneFlipInterval;
 let firstCard, secondCard;
-let matchedArray;
-let cardFrontArray = [];
+let matchedArray, cardFrontArray;
 
 /*----- cached elements -----*/
 const playAgainBtn = document.getElementById('play-again');
@@ -29,7 +28,7 @@ playAgainBtn.addEventListener('click', initialize);
 function renderCards() {
     document.getElementById('cards').innerHTML = '';
     generateRandom();
-    for (let i = 0; i < 20; i++){
+    for (let i = 0; i < 20; i++) {
         document.getElementById('cards').innerHTML += `
             <div class="card" value=${cardFrontArray[i]}>
                 <div class="front">${cardFrontArray[i]}</div>
@@ -194,7 +193,7 @@ function initialize() {
     timeOut = false;
     timeLeft = 45;
     matchedArray = [];
-    cardFrontArray.splice(0);
+    cardFrontArray = [];
     startGameBtn.style.visibility = 'visible';
     renderCards();
     render()
