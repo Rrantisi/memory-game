@@ -27,6 +27,7 @@ playAgainBtn.addEventListener('click', initialize);
 
 /*----- functions -----*/
 function renderCards() {
+    document.getElementById('cards').innerHTML = '';
     generateRandom();
     for (let i = 0; i < 20; i++){
         document.getElementById('cards').innerHTML += `
@@ -43,6 +44,7 @@ function generateRandom() {
     cardFrontArray.sort(() => Math.random() - 0.5)
 }
 
+// function to show all cards at the beginning of the game
 function startGame() {
     generateRandom()
     startGameBtn.style.visibility = 'hidden';
@@ -57,11 +59,11 @@ function startGame() {
     })
     setTimeout(() => {
         timeInterval = setInterval(renderTime, 1000)
-        renderTime();
         playGame();
     }, 3000);
 }
 
+// function to handle player clicks
 function playGame() {
     cards = document.querySelectorAll('.card');
     [...cards].forEach(card => card.addEventListener(('click'), () => {
@@ -84,7 +86,7 @@ function playGame() {
     }))
 }
 
-function flip(element){
+function flip(element) {
     element.classList.add('flipped');
     element.style['transform'] = 'rotateY(180deg)'
 }
@@ -111,7 +113,7 @@ function checkMatch() {
         moves++
         lives--
     }
-    checkGameStatus();
+    checkWinOrLose();
 }
 
 function checkOneFlip() {
@@ -134,28 +136,18 @@ function checkOneFlip() {
     return;
 }
 
-function removeFlippedMatched(){
-    cards = document.querySelectorAll('.card');
-    [...cards].forEach((card)=> {
-        if(card.className.includes('matched') || card.className.includes('flipped')){
-            card.classList.remove('flipped');
-            card.classList.remove('matched')
-        }    
-    })
-}
-
-function checkGameStatus() {
+function checkWinOrLose() {
     if (matchedArray.length === 20) {
         winner = true;
         gameInPlay = false;
         clearInterval(timeInterval)  
-    } else !winner
+    } 
     if (lives === 0 || timeOut) {
         timeLeft = 0;
         gameOver = true
         gameInPlay = false;
         clearInterval(timeInterval)    
-    } else !gameOver
+    }
     render();
 }
 
@@ -166,16 +158,14 @@ function renderMessage() {
         <p>Your Score: <span> ${moves} </span></p>
         `
         audio.youWinAudio.play();
-    } else gameInPlay;
+    };
     if(gameOver) {
         lives = 0;
         messageContainer.innerHTML = `
         <h2>GAME OVER</h2>
         `
         audio.gameOverAudio.play();
-    } else gameInPlay;
-
-    removeFlippedMatched();
+    };
 }
 
 function renderControls() {
@@ -206,6 +196,7 @@ function initialize() {
     matchedArray = [];
     cardFrontArray.splice(0);
     startGameBtn.style.visibility = 'visible';
+    renderCards();
     render()
 }
 
@@ -228,10 +219,6 @@ function renderTime() {
     if(timeLeft <= 0) {
         clearInterval(timeInterval);
         timeOut = true;
-        checkGameStatus();
+        checkWinOrLose();
     }
-}
-
-window.onload = function() {
-    renderCards();
 }
