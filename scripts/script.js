@@ -28,10 +28,11 @@ playAgainBtn.addEventListener('click', initialize);
 
 /*----- functions -----*/
 function renderCards() {
+    generateRandom();
     for (let i = 0; i < 20; i++){
         document.getElementById('cards').innerHTML += `
-            <div class="card">
-                <div class="front"></div>
+            <div class="card" value=${cardFrontArray[i]}>
+                <div class="front">${cardFrontArray[i]}</div>
                 <div class="back"></div>
             </div>
         `
@@ -47,18 +48,6 @@ function generateRandom() {
     }
     cardFrontArray = [...cardFrontArray, ...cardFrontArray];
     cardFrontArray.sort(() => Math.random() - 0.5)
-    renderCardValues();
-}
-
-function renderCardValues() {
-    const front = document.querySelectorAll('.front');
-    cards = document.querySelectorAll('.card');
-    for (let i = 0; i < [...front].length; i++){
-        [...front][i].innerText = `${cardFrontArray[i]}`
-    }
-    for (let i = 0; i < [...cards].length; i++){
-        [...cards][i].setAttribute('value', `${cardFrontArray[i]}`);
-    }
 }
 
 function startGame() {
@@ -71,7 +60,7 @@ function startGame() {
             card.style['transform'] = 'rotateY(0deg)' 
             firstCard = ''
             secondCard = ''
-        }, 4000)
+        }, 3000)
     })
     setTimeout(() => {
         timeInterval = setInterval(renderTime, 1000)
