@@ -1,37 +1,38 @@
 
-                                                     MEMORY GAME
-About the game: 
+# MEMORY GAME
 
-To start, simply click the start game button. All the cards will be visible and you will have 3 seconds to memorize the cards. After that, they will be face down and you will have to find all matching pairs to win the game. 
-You will have 45 seconds and 12 lives for each turn you play. If either one reaches zero you will lose the game.
-Player score will be the same as the moves count. The lower the number, the higher the score.
+## TABLE OF CONTENTS:
+- [About](#about)
+- [Getting Started](#getting-started)
+- [Screenshots](#screenshots)
+- [Technologies](#technologies)
+- [Acknowledgments](#acknowledgments)
+
+## About:
+Test your concentration with this twenty-card memory game. You will have 3 seconds to memorize all the cards before starting the game. Each time you play, you will have 45 seconds and 12 lives to find all the matching pairs. 
+Your score will be based on your moves count. The lower the number, the higher you score.
+
+## Getting Started:
+To start, click on this link: https://rrantisi.github.io/memory-game/, then simply click the start game button.
 
 Good Luck!
 
-                                                    LINK TO GAME
+## Screenshots:
 
-https://rrantisi.github.io/memory-game/
+![Alt text](https://github.com/Rrantisi/memory-game/blob/main/playGame.png "Screenshot")
 
-                                        
-                                                    SCREENSHOTS
+![Alt text](https://github.com/Rrantisi/memory-game/blob/main/youWon.png "Screenshot")
 
-![Alt text](https://github.com/Rrantisi/memory-game/blob/6645d7de6d151c47ab479bd785669c891a6278eb/Screen%20Shot%202023-04-05%20at%204.01.17%20PM.png "Screenshot")
-
-![Alt text](https://github.com/Rrantisi/memory-game/blob/5374c667e90255f850e57990ef84a7699ececf6c/Screen%20Shot%202023-04-05%20at%2011.30.18%20AM.png "Screenshot")
-
-![Alt text](https://github.com/Rrantisi/memory-game/blob/0db4422d70e860dea5575d6098ea83ab8059bf25/Screen%20Shot%202023-04-05%20at%2011.30.56%20AM.png "Screenshot")
+![Alt text](https://github.com/Rrantisi/memory-game/blob/main/gameOver.png "Screenshot")
 
 
-                                                 TECHNOLOGIES USED
-
+## Technologies:
+Built with : 
 1. HTML5
 2. CSS3
 3. Vanilla JavaScript
 
+## Acknowledgments:
+#### Daniel Scott - Senior Instructor Lead
+#### Troy Swayzee - SEI Instructor Lead
 
-
-
-
-                                               FUTURE ENHANCEMENTS
-
-- Difficulty Level
