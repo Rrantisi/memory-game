@@ -6,6 +6,7 @@
 - [Getting Started](#getting-started)
 - [Screenshots](#screenshots)
 - [Technologies](#technologies)
+- [Next Steps](#next-steps)
 - [Acknowledgments](#acknowledgments)
 
 ## About:
@@ -31,6 +32,10 @@ Built with :
 1. HTML5
 2. CSS3
 3. Vanilla JavaScript
+
+## Next Steps: 
+1. Add difficulty level
+2. Add high score
 
 ## Acknowledgments:
 #### Daniel Scott - Senior Instructor Lead
