@@ -14,7 +14,7 @@ Test your concentration with this twenty-card memory game. You will have 3 secon
 Your score will be based on your moves count. The lower the number, the higher you score.
 
 ## Getting Started:
-To start, click on this link: https://rrantisi.github.io/memory-game/, then simply click the start game button.
+To start, click on this link: [Memory Game](https://rrantisi.github.io/memory-game/), then simply click the start game button.
 
 Good Luck!
 
