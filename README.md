@@ -1,5 +1,5 @@
 
-# MEMORY GAME
+  <h1 align="center">Memory Game</h1>
 
 ## TABLE OF CONTENTS:
 - [About](#about)
@@ -20,11 +20,11 @@ Good Luck!
 
 ## Screenshots:
 
-![Alt text](https://github.com/Rrantisi/memory-game/blob/main/playGame.png "Screenshot")
+![memory-game](/images/playGame.png)
 
-![Alt text](https://github.com/Rrantisi/memory-game/blob/main/youWon.png "Screenshot")
+![memory-game](/images/youWon.png)
 
-![Alt text](https://github.com/Rrantisi/memory-game/blob/main/gameOver.png "Screenshot")
+![memory-game](/images/gameOver.png)
 
 
 ## Technologies:
