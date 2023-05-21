@@ -1,13 +1,17 @@
 
   <h1 align="center">Memory Game</h1>
 
-## TABLE OF CONTENTS:
-- [About](#about)
-- [Getting Started](#getting-started)
-- [Screenshots](#screenshots)
-- [Technologies](#technologies)
-- [Next Steps](#next-steps)
-- [Acknowledgments](#acknowledgments)
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li><a href="#about-the-project">About The Project</a>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#screenshots">Screenshots</a></li>
+    <li><a href="#technologies">Built With</a></li>
+    <li><a href="#next-steps">Ice Box</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
 ## About:
 Test your concentration with this twenty-card memory game. You will have 3 seconds to memorize all the cards before starting the game. Each time you play, you will have 45 seconds and 12 lives to find all the matching pairs. 
